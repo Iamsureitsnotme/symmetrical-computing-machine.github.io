@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2048 Game</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(4, 100px);
+        gap: 10px;
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        width: max-content;
+        margin: auto;
+    }
+    .grid-item {
+        background-color: #eee;
+        text-align: center;
+        padding: 20px;
+        font-size: 24px;
+        border-radius: 5px;
+    }
+</style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="grid-container" id="gridContainer">
+    <div class="grid-item" id="cell00"></div>
+    <div class="grid-item" id="cell01"></div>
+    <div class="grid-item" id="cell02"></div>
+    <div class="grid-item" id="cell03"></div>
+    <div class="grid-item" id="cell10"></div>
+    <div class="grid-item" id="cell11"></div>
+    <div class="grid-item" id="cell12"></div>
+    <div class="grid-item" id="cell13"></div>
+    <div class="grid-item" id="cell20"></div>
+    <div class="grid-item" id="cell21"></div>
+    <div class="grid-item" id="cell22"></div>
+    <div class="grid-item" id="cell23"></div>
+    <div class="grid-item" id="cell30"></div>
+    <div class="grid-item" id="cell31"></div>
+    <div class="grid-item" id="cell32"></div>
+    <div class="grid-item" id="cell33"></div>
+</div>
+<script>
+    // Function to generate a random number (2 or 4)
+    function generateRandomNumber() {
+        return Math.random() < 0.9 ? 2 : 4;
+    }
+
+    // Function to initialize the game
+    function initGame() {
+        for (let i = 0; i < 16; i++) {
+            const cell = document.getElementById(`cell${Math.floor(i / 4)}${i % 4}`);
+            cell.innerText = '';
+            cell.style.backgroundColor = '#eee';
+        }
+        // Generate two random initial numbers
+        generateRandom();
+        generateRandom();
+    }
+
+    // Function to generate a random number at an empty cell
+    function generateRandom() {
+        const emptyCells = [];
+        for (let i = 0; i < 16; i++) {
+            const cell = document.getElementById(`cell${Math.floor(i / 4)}${i % 4}`);
+            if (cell.innerText === '') {
+                emptyCells.push(cell);
+            }
+        }
+        if (emptyCells.length > 0) {
+            const randomIndex = Math.floor(Math.random() * emptyCells.length);
+            const randomCell = emptyCells[randomIndex];
+            randomCell.innerText = generateRandomNumber();
+        }
+    }
+
+    // Function to handle key press events
+    function handleKeyPress(event) {
+        const key = event.key;
+        if (key === 'ArrowUp' || key === 'ArrowDown' || key === 'ArrowLeft' || key === 'ArrowRight') {
+            event.preventDefault();
+            // Implement game logic here
+            console.log(`Moving ${key}`);
+            generateRandom();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initGame();
+        document.addEventListener('keydown', handleKeyPress);
+    });
+</script>
+</body>
+</html>
